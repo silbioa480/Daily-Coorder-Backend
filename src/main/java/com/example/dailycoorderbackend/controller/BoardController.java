@@ -50,7 +50,7 @@ public class BoardController {
   }
 
   @DeleteMapping("/board/{board_id}")
-  public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long board_id) {
+  public ResponseEntity<Map<String, Boolean>> deleteBoard(@PathVariable Long board_id) {
     Board board = boardRepository.findById(board_id).
       orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_id));
 
