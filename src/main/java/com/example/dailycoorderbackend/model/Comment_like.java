@@ -2,7 +2,7 @@ package com.example.dailycoorderbackend.model;
 
 
 import javax.persistence.*;
-
+@Entity
 @Table(name = "comment_like")
 
 class Comment_like {
@@ -10,7 +10,6 @@ class Comment_like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "comment_like_id")
     private long comment_like_id;
 
     @Column(name = "comment_id")
