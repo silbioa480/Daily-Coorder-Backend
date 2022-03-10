@@ -17,14 +17,17 @@ public class BusinessProfile {
     @Column(name = "business_profile_file")
     private File business_profile_file;
 
+    @Column(name = "business_profile_name")
+    private String business_profile_name;
+
     public BusinessProfile () {}
 
 
-
-    public BusinessProfile(long business_profile_id, File business_profile_file) {
+    public BusinessProfile(long business_profile_id, File business_profile_file, String business_profile_name) {
         super();
         this.business_profile_id = business_profile_id;
         this.business_profile_file = business_profile_file;
+        this.business_profile_name = business_profile_name;
     }
 
     public long getBusiness_profile_id() {
@@ -41,6 +44,14 @@ public class BusinessProfile {
 
     public void setBusiness_profile_file(File business_profile_file) {
         this.business_profile_file = business_profile_file;
+    }
+
+    public String getBusiness_profile_name() {
+        return business_profile_name;
+    }
+
+    public void setBusiness_profile_name(String business_profile_name) {
+        this.business_profile_name = business_profile_name;
     }
 }
 
