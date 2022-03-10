@@ -44,6 +44,10 @@ public class BusinessProfileController {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfile_id).
                 orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + businessProfile_id));
 
+
+        businessProfile.setBusiness_profile_file(changedBusinessProfile.getBusiness_profile_file());
+        businessProfile.setBusiness_profile_name(changedBusinessProfile.getBusiness_profile_name());
+
         BusinessProfile updateBusinessProfile = businessProfileRepository.save(businessProfile);
 
         return ResponseEntity.ok(updateBusinessProfile);

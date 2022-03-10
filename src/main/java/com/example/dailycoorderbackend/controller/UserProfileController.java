@@ -43,6 +43,9 @@ public class UserProfileController {
         UserProfile userProfile = userProfileRepository.findById(userProfile_id).
                 orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + userProfile_id));
 
+        userProfile.setUser_profile_file(changedUserProfile.getUser_profile_file());
+        userProfile.setUser_profile_name(changedUserProfile.getUser_profile_name());
+
         UserProfile updateUserProfile = userProfileRepository.save(userProfile);
 
         return ResponseEntity.ok(updateUserProfile);
