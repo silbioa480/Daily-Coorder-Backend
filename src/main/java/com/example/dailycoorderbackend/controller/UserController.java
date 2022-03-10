@@ -51,6 +51,14 @@ public class UserController {
     user.setUser_nickname(changedUser.getUser_nickname());
     user.setUser_weight(changedUser.getUser_weight());
     user.setUser_height(changedUser.getUser_height());
+    user.setUser_follow_number(changedUser.getUser_follow_number());
+    user.setUser_follower_number(changedUser.getUser_follower_number());
+    user.setUser_id(changedUser.getUser_id());
+    user.setUser_is_location(changedUser.getUser_is_location());
+    user.setUser_is_admin(changedUser.getUser_is_admin());
+    user.setUser_tag(changedUser.getUser_tag());
+    user.setInsert_date(changedUser.getInsert_date());
+    user.setUpdate_date(changedUser.getUpdate_date());
 
     User updateUser = userRepository.save(user);
 
