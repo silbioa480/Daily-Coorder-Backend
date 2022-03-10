@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "business")
 public class Business {
@@ -22,26 +23,44 @@ public class Business {
   @Column(name = "business_number")
   private String business_number;
 
-  @Column(name = "business_url")
-  private String business_url;
-
   @Column(name = "business_phone")
   private String business_phone;
 
   @Column(name = "business_email")
   private String business_email;
 
+//  @Column(name = "business_profile")
+//  private Blob business_profile;
+
+  @Column(name = "business_follow_number")
+  private int business_follow_number;
+
+  @Column(name = "business_follower_number")
+  private int business_follower_number;
+
+  @Column(name = "business_is_ad")
+  private boolean business_is_ad;
+
+  @Column(name = "business_is_location")
+  private boolean business_is_location;
+
+
   public Business() {
   }
 
-  public Business(String business_id, String business_password, String business_name, String business_number, String business_url, String business_phone, String business_email) {
+
+  public Business(String business_id, String business_password, String business_name, String business_number, String business_phone, String business_email, int business_follow_number, int business_follower_number, boolean business_is_ad, boolean business_is_location) {
     this.business_id = business_id;
     this.business_password = business_password;
     this.business_name = business_name;
     this.business_number = business_number;
-    this.business_url = business_url;
     this.business_phone = business_phone;
     this.business_email = business_email;
+//    this.business_profile = business_profile;
+    this.business_follow_number= business_follow_number;
+    this.business_follower_number = business_follower_number;
+    this.business_is_ad = business_is_ad;
+    this.business_is_location = business_is_location;
   }
 
   public String getBusiness_id() {
@@ -76,13 +95,6 @@ public class Business {
     this.business_number = business_number;
   }
 
-  public String getBusiness_url() {
-    return business_url;
-  }
-
-  public void setBusiness_url(String business_url) {
-    this.business_url = business_url;
-  }
 
   public String getBusiness_phone() {
     return business_phone;
@@ -99,4 +111,29 @@ public class Business {
   public void setBusiness_email(String business_email) {
     this.business_email = business_email;
   }
+
+  public int getBusiness_follow_number() {
+    return business_follow_number;
+  }
+
+  public void setBusiness_follow_number(int business_follow_number) {
+    this.business_follow_number = business_follow_number;
+  }
+
+  public int getBusiness_follower_number() {
+    return business_follower_number;
+  }
+
+  public void setBusiness_follower_number(int business_follower_number) {
+    this.business_follower_number = business_follower_number;
+  }
+
+  public boolean getBusiness_is_ad() {
+    return business_is_ad;
+  }
+
+  public void setBusiness_is_ad(boolean business_is_ad) {
+    this.business_is_ad = business_is_ad;
+  }
+
 }
