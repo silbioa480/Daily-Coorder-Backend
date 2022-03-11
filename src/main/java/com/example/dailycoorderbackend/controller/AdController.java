@@ -7,7 +7,9 @@ import com.example.dailycoorderbackend.repository.AdRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/")
@@ -50,5 +52,16 @@ public class AdController {
         AdTable updateAdt = adRepository.save(adt);
 
         return ResponseEntity.ok(updateAdt);
+    }
+
+    @DeleteMapping("/MyPage_Adapplication/{ad_id}")
+    public ResponseEntity<Map<String, Boolean>> deleteAd(@PathVariable Long ad_id) {
+        AdTable adt = adRepository.findById(ad_id).orElseThrow(() -> new ResourceNotFoundException("ad_id not exit" + ad_id));
+
+        adRepository.delete(adt);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
     }
 }
