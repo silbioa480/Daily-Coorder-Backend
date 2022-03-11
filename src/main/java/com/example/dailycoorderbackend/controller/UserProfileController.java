@@ -32,10 +32,10 @@ public class UserProfileController {
 
     @GetMapping("/userProfile/{userProfile_id}")
     public ResponseEntity<UserProfile> getUserProfileById(@PathVariable Long userProfile_id) {
-        UserProfile business = userProfileRepository.findById(userProfile_id).
+        UserProfile userProfile = userProfileRepository.findById(userProfile_id).
                 orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + userProfile_id));
 
-        return ResponseEntity.ok(business);
+        return ResponseEntity.ok(userProfile);
     }
 
     @PutMapping("/userProfile/{userProfile_id}")

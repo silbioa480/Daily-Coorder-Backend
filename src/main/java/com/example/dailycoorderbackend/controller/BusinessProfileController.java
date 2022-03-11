@@ -33,10 +33,10 @@ public class BusinessProfileController {
 
     @GetMapping("/businessProfile/{businessProfile_id}")
     public ResponseEntity<BusinessProfile> getBusinessProfileById(@PathVariable Long businessProfile_id) {
-        BusinessProfile business = businessProfileRepository.findById(businessProfile_id).
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfile_id).
                 orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + businessProfile_id));
 
-        return ResponseEntity.ok(business);
+        return ResponseEntity.ok(businessProfile);
     }
 
     @PutMapping("/businessProfile/{businessProfile_id}")
