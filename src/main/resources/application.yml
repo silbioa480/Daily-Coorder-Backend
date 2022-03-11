@@ -11,3 +11,8 @@ spring:
 
 server:
   port: ${port:8080}
+
+
+  spring.servlet.miltipart.maxFileSize: 10MB
+  spring.servlet.miltipart.maxRequestSize: 10MB
+
