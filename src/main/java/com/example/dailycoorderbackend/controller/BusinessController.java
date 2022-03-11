@@ -44,15 +44,16 @@ public class BusinessController {
       orElseThrow(() -> new ResourceNotFoundException("Business not exist with id: " + business_id));
 
     business.setBusiness_password(changedBusiness.getBusiness_password());
+    business.setBusiness_profile(changedBusiness.getBusiness_profile());
     business.setBusiness_name(changedBusiness.getBusiness_name());
     business.setBusiness_number(changedBusiness.getBusiness_number());
-//    business.setBusiness_url(changedBusiness.getBusiness_url());
     business.setBusiness_phone(changedBusiness.getBusiness_phone());
     business.setBusiness_email(changedBusiness.getBusiness_email());
     business.setBusiness_follow_number(changedBusiness.getBusiness_follow_number());
     business.setBusiness_follower_number(changedBusiness.getBusiness_follower_number());
     business.setBusiness_is_ad(changedBusiness.getBusiness_is_ad());
-    business.setBusiness_is_ad(changedBusiness.getBusiness_is_ad());
+    business.setBusiness_is_location(changedBusiness.getBusiness_is_location());
+    business.setBusiness_update_date(changedBusiness.getBusiness_update_date());
 
     Business updateBusiness = businessRepository.save(business);
 

@@ -32,19 +32,22 @@ public class CommentController {
 
   @GetMapping("/comments/{comment_id}")
   public ResponseEntity<Comment> getCommentById(@PathVariable Long comment_id) {
-    Comment business = commentRepository.findById(comment_id).
+    Comment comment = commentRepository.findById(comment_id).
       orElseThrow(() -> new ResourceNotFoundException("Comment not exist with id: " + comment_id));
 
-    return ResponseEntity.ok(business);
+    return ResponseEntity.ok(comment);
   }
 
   @PutMapping("/comments/{comment_id}")
   public ResponseEntity<Comment> updateComment(@PathVariable Long comment_id, @RequestBody Comment changedComment) {
-    Comment board = commentRepository.findById(comment_id).
+    Comment comment = commentRepository.findById(comment_id).
       orElseThrow(() -> new ResourceNotFoundException("Comment not exist with id: " + comment_id));
 
+    comment.setComment_text(changedComment.getComment_text());
+    comment.setComment_like_number(changedComment.getComment_like_number());
+    comment.setComment_update_date(changedComment.getComment_update_date());
 
-    Comment updateComment = commentRepository.save(board);
+    Comment updateComment = commentRepository.save(comment);
 
     return ResponseEntity.ok(updateComment);
   }

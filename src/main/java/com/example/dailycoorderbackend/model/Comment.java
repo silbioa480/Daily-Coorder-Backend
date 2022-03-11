@@ -2,13 +2,13 @@ package com.example.dailycoorderbackend.model;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 @Table(name = "comment")
 public class Comment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-
   private long comment_id;
 
   @Column(name = "board_id")
@@ -16,8 +16,6 @@ public class Comment {
 
   @Column(name = "comment_poster")
   private String comment_poster;
-
-
 
   @Column(name = "comment_text")
   private String comment_text;
@@ -31,13 +29,13 @@ public class Comment {
   @Column(name = "comment_update_date")
   private Date comment_update_date;
 
-  public Comment(){}
+  public Comment() {
+  }
 
   public Comment(long comment_id, long board_id, String comment_poster, String comment_text, int comment_like_number, Date comment_post_date, Date comment_update_date) {
     this.comment_id = comment_id;
     this.board_id = board_id;
     this.comment_poster = comment_poster;
-
     this.comment_text = comment_text;
     this.comment_like_number = comment_like_number;
     this.comment_post_date = comment_post_date;
@@ -67,8 +65,6 @@ public class Comment {
   public void setComment_poster(String comment_poster) {
     this.comment_poster = comment_poster;
   }
-
-
 
   public String getComment_text() {
     return comment_text;

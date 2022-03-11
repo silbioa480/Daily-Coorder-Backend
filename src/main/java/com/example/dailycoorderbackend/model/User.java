@@ -14,6 +14,9 @@ public class User {
   @Column(name = "user_id")
   private String user_id;
 
+  @Column(name = "user_profile")
+  private long user_profile;
+
   @Column(name = "user_password")
   private String user_password;
 
@@ -59,19 +62,19 @@ public class User {
   @Column(name = "user_height")
   private float user_height;
 
-  @Column(name = "insert_date")
-  private Date insert_date;
+  @Column(name = "user_signup_date")
+  private Date user_signup_date;
 
-  @Column(name = "update_date")
-  private Date update_date;
+  @Column(name = "user_update_date")
+  private Date user_update_date;
 
 
   public User() {
   }
 
-  public User(String user_id, String user_password, String user_name, String user_nickname, String user_phone, String user_email, int user_follow_number, int user_follower_number,
-              boolean user_is_ad, boolean user_is_location, boolean user_is_admin, String user_tag, boolean user_gender, Date user_birth, float user_weight, float user_height, Date insert_date, Date update_date) {
+  public User(String user_id, long user_profile, String user_password, String user_name, String user_nickname, String user_phone, String user_email, int user_follow_number, int user_follower_number, boolean user_is_ad, boolean user_is_location, boolean user_is_admin, String user_tag, boolean user_gender, Date user_birth, float user_weight, float user_height, Date user_signup_date, Date user_update_date) {
     this.user_id = user_id;
+    this.user_profile = user_profile;
     this.user_password = user_password;
     this.user_name = user_name;
     this.user_nickname = user_nickname;
@@ -87,8 +90,8 @@ public class User {
     this.user_birth = user_birth;
     this.user_weight = user_weight;
     this.user_height = user_height;
-    this.insert_date = insert_date;
-    this.update_date = update_date;
+    this.user_signup_date = user_signup_date;
+    this.user_update_date = user_update_date;
   }
 
   public String getUser_id() {
@@ -97,6 +100,14 @@ public class User {
 
   public void setUser_id(String user_id) {
     this.user_id = user_id;
+  }
+
+  public long getUser_profile() {
+    return user_profile;
+  }
+
+  public void setUser_profile(long user_profile) {
+    this.user_profile = user_profile;
   }
 
   public String getUser_password() {
@@ -113,14 +124,6 @@ public class User {
 
   public void setUser_name(String user_name) {
     this.user_name = user_name;
-  }
-
-  public Date getUser_birth() {
-    return user_birth;
-  }
-
-  public void setUser_birth(Date user_birth) {
-    this.user_birth = user_birth;
   }
 
   public String getUser_nickname() {
@@ -145,22 +148,6 @@ public class User {
 
   public void setUser_email(String user_email) {
     this.user_email = user_email;
-  }
-
-  public float getUser_weight() {
-    return user_weight;
-  }
-
-  public void setUser_weight(float user_weight) {
-    this.user_weight = user_weight;
-  }
-
-  public float getUser_height() {
-    return user_height;
-  }
-
-  public void setUser_height(float user_height) {
-    this.user_height = user_height;
   }
 
   public int getUser_follow_number() {
@@ -219,22 +206,43 @@ public class User {
     this.user_gender = user_gender;
   }
 
-
-  public Date getInsert_date() {
-    return insert_date;
+  public Date getUser_birth() {
+    return user_birth;
   }
 
-  public void setInsert_date(Date insert_date) {
-    this.insert_date = insert_date;
+  public void setUser_birth(Date user_birth) {
+    this.user_birth = user_birth;
   }
 
-  public Date getUpdate_date() {
-    return update_date;
+  public float getUser_weight() {
+    return user_weight;
   }
 
-  public void setUpdate_date(Date update_date) {
-    this.update_date = update_date;
+  public void setUser_weight(float user_weight) {
+    this.user_weight = user_weight;
   }
 
+  public float getUser_height() {
+    return user_height;
+  }
 
+  public void setUser_height(float user_height) {
+    this.user_height = user_height;
+  }
+
+  public Date getUser_signup_date() {
+    return user_signup_date;
+  }
+
+  public void setUser_signup_date(Date user_signup_date) {
+    this.user_signup_date = user_signup_date;
+  }
+
+  public Date getUser_update_date() {
+    return user_update_date;
+  }
+
+  public void setUser_update_date(Date user_update_date) {
+    this.user_update_date = user_update_date;
+  }
 }

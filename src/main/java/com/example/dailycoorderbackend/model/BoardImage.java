@@ -10,8 +10,6 @@ public class BoardImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-
     private long board_image_id;
 
     @Column(name = "board_image_file")
@@ -22,7 +20,6 @@ public class BoardImage {
 
     public BoardImage() {
     }
-
 
     public BoardImage(long board_image_id, File board_image_file, String board_image_name) {
         this.board_image_id = board_image_id;
@@ -54,7 +51,6 @@ public class BoardImage {
     public void setBoard_image_name(String board_image_name) {
         this.board_image_name = board_image_name;
     }
-
 
 }
 
