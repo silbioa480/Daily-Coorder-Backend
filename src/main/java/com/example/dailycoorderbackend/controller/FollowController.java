@@ -30,7 +30,7 @@ public class FollowController {
         return followRepository.save(follow);
     }
 
-    @GetMapping("/follow/{follow.id}")
+    @GetMapping("/follow/{follow_id}")
     public ResponseEntity<Follow> getFollowById(@PathVariable Long follow_id) {
         Follow follow = followRepository.findById(follow_id).
                 orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + follow_id));
