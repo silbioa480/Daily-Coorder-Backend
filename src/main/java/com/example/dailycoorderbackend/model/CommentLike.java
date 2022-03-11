@@ -18,14 +18,13 @@ class Comment_like {
     @Column(name = "comment_like_user_id")
     private String comment_like_user_id;
 
-    @Column(name = "board_image_id")
-    private long board_image_id;
 
-    public Comment_like(long comment_like_id, String comment_id, String comment_like_user_id, long board_image_id) {
+
+    public Comment_like(long comment_like_id, String comment_id, String comment_like_user_id) {
         this.comment_like_id = comment_like_id;
         this.comment_id = comment_id;
         this.comment_like_user_id = comment_like_user_id;
-        this.board_image_id = board_image_id;
+
     }
 
     public long getComment_like_id() {
@@ -52,11 +51,6 @@ class Comment_like {
         this.comment_like_user_id = comment_like_user_id;
     }
 
-    public long getBoard_image_id() {
-        return board_image_id;
-    }
 
-    public void setBoard_image_id(long board_image_id) {
-        this.board_image_id = board_image_id;
-    }
+
 }
