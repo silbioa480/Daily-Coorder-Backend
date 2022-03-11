@@ -6,7 +6,7 @@ import java.io.File;
 
 @Entity
 @Table(name = "board_image")
-public class Board_image {
+public class BoardImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,11 @@ public class Board_image {
     @Column(name = "board_image_name")
     private String board_image_name;
 
-    public Board_image() {
+    public BoardImage() {
     }
 
 
-    public Board_image(long board_image_id, File board_image_file, String board_image_name) {
+    public BoardImage(long board_image_id, File board_image_file, String board_image_name) {
         this.board_image_id = board_image_id;
         this.board_image_file = board_image_file;
         this.board_image_name = board_image_name;

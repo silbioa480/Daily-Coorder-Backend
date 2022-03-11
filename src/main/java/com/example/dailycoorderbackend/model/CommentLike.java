@@ -4,8 +4,8 @@ package com.example.dailycoorderbackend.model;
 import javax.persistence.*;
 @Entity
 @Table(name = "comment_like")
-
-class Comment_like {
+public
+class CommentLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ class Comment_like {
 
 
 
-    public Comment_like(long comment_like_id, String comment_id, String comment_like_user_id) {
+    public CommentLike(long comment_like_id, String comment_id, String comment_like_user_id) {
         this.comment_like_id = comment_like_id;
         this.comment_id = comment_id;
         this.comment_like_user_id = comment_like_user_id;
