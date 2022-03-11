@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
  // 팔로우 데이터 가져와서 쏴주기
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    @Query("select to_user_id from Follow where from_user_id=?1")
-    Long findByFrom_user_id(@Param("from_user_id") String from_user_id );
-}
-
+     @Query("select to_user_id from Follow where from_user_id=?1")
+     String[] findByFromUserId(@Param("from_user_id") String from_user_id);
+ }
