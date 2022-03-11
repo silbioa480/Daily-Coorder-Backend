@@ -1,14 +1,13 @@
 package com.example.dailycoorderbackend.model;
 
 import javax.persistence.*;
-
+@Entity
 @Table(name = "follow")
 public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "follow_id")
     private long follow_id;
 
     @Column(name = "from_user_id")

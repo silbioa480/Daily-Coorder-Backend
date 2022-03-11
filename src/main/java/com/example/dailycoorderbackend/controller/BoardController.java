@@ -32,10 +32,10 @@ public class BoardController {
 
   @GetMapping("/board/{board_id}")
   public ResponseEntity<Board> getBoardById(@PathVariable Long board_id) {
-    Board business = boardRepository.findById(board_id).
+    Board board = boardRepository.findById(board_id).
       orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_id));
 
-    return ResponseEntity.ok(business);
+    return ResponseEntity.ok(board);
   }
 
   @PutMapping("/board/{board_id}")
@@ -43,6 +43,15 @@ public class BoardController {
     Board board = boardRepository.findById(board_id).
       orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_id));
 
+
+    board.setBoard_image(changedBoard.getBoard_image());
+    board.setBoard_title(changedBoard.getBoard_title());
+    board.setBoard_content(changedBoard.getBoard_content());
+    board.setBoard_url(changedBoard.getBoard_url());
+    board.setBoard_like_num(changedBoard.getBoard_like_num());
+    board.setBoard_view(changedBoard.getBoard_view());
+    board.setBoard_post_date(changedBoard.getBoard_post_date());
+    board.setBoard_update_date(changedBoard.getBoard_update_date());
 
     Board updateBoard = boardRepository.save(board);
 
