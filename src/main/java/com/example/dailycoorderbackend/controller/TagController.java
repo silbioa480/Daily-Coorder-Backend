@@ -26,25 +26,34 @@ public class TagController {
   }
 
   @PostMapping("/tag")
-  public Tag createTag(@RequestBody Tag board) {
-    return tagRepository.save(board);
+  public Tag createTag(@RequestBody Tag tag) {
+    return tagRepository.save(tag);
   }
 
   @GetMapping("/tag/{tag_id}")
   public ResponseEntity<Tag> getTagById(@PathVariable Long tag_id) {
-    Tag business = tagRepository.findById(tag_id).
+    Tag tag = tagRepository.findById(tag_id).
       orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
-    return ResponseEntity.ok(business);
+    return ResponseEntity.ok(tag);
+  }
+
+  @GetMapping("/tag/tag_name/{tag_name}")
+  public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
+    Long[] boardId = tagRepository.findByTagName(tag_name);
+
+    return ResponseEntity.ok(boardId);
   }
 
   @PutMapping("/tag/{tag_id}")
   public ResponseEntity<Tag> updateTag(@PathVariable Long tag_id, @RequestBody Tag changedTag) {
-    Tag board = tagRepository.findById(tag_id).
+    Tag tag = tagRepository.findById(tag_id).
       orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
+    tag.setBoard_id(changedTag.getBoard_id());
+    tag.setTag_name(changedTag.getTag_name());
 
-    Tag updateTag = tagRepository.save(board);
+    Tag updateTag = tagRepository.save(tag);
 
     return ResponseEntity.ok(updateTag);
   }

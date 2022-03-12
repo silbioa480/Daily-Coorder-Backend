@@ -15,49 +15,45 @@ import java.util.Map;
 public class CommentLikeController {
     private final CommentLikeRepository commentLikeRepository;
 
-
     public CommentLikeController(CommentLikeRepository commentRepository) {
         this.commentLikeRepository = commentRepository;
     }
 
-    @GetMapping("/commentLike")
+    @GetMapping("/comment_like")
     public List<CommentLike> getAllCommentLike() {
         return commentLikeRepository.findAll();
     }
 
-    @PostMapping("/commentLike")
+    @PostMapping("/comment_like")
     public CommentLike createCommentLike(@RequestBody CommentLike commentLike) {
         return commentLikeRepository.save(commentLike);
     }
 
-    @GetMapping("/commentLike/{comment_like_id}")
+    @GetMapping("/comment_like/{comment_like_id}")
     public ResponseEntity<CommentLike> getCommentLikeById(@PathVariable Long comment_like_id) {
         CommentLike commentLike = commentLikeRepository.findById(comment_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
+          orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
 
         return ResponseEntity.ok(commentLike);
     }
 
-    @PutMapping("/commentLike/{comment_like_id}")
+    @PutMapping("/comment_like/{comment_like_id}")
     public ResponseEntity<CommentLike> updateCommentLike(@PathVariable Long comment_like_id, @RequestBody CommentLike changeCommentLike) {
         CommentLike commentLike = commentLikeRepository.findById(comment_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
-
+          orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
 
         commentLike.setComment_id(changeCommentLike.getComment_id());
         commentLike.setComment_like_user_id(changeCommentLike.getComment_like_user_id());
 
         CommentLike updateCommentLike = commentLikeRepository.save(commentLike);
 
-
         return ResponseEntity.ok(updateCommentLike);
     }
 
-
-    @DeleteMapping("/commentLike/{comment_like_id}")
+    @DeleteMapping("/comment_like/{comment_like_id}")
     public ResponseEntity<Map<String, Boolean>> deleteCommentLike(@PathVariable Long comment_like_id) {
         CommentLike commentLike = commentLikeRepository.findById(comment_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
+          orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + comment_like_id));
 
         commentLikeRepository.delete(commentLike);
         Map<String, Boolean> response = new HashMap<>();

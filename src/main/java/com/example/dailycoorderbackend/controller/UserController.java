@@ -44,21 +44,22 @@ public class UserController {
       orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + user_id));
 
     user.setUser_password(changedUser.getUser_password());
+    user.setUser_profile(changedUser.getUser_profile());
     user.setUser_name(changedUser.getUser_name());
     user.setUser_birth(changedUser.getUser_birth());
     user.setUser_gender(changedUser.getUser_gender());
     user.setUser_email(changedUser.getUser_email());
+    user.setUser_phone(changedUser.getUser_phone());
     user.setUser_nickname(changedUser.getUser_nickname());
     user.setUser_weight(changedUser.getUser_weight());
     user.setUser_height(changedUser.getUser_height());
     user.setUser_follow_number(changedUser.getUser_follow_number());
     user.setUser_follower_number(changedUser.getUser_follower_number());
-    user.setUser_id(changedUser.getUser_id());
+    user.setUser_is_ad(changedUser.getUser_is_ad());
     user.setUser_is_location(changedUser.getUser_is_location());
     user.setUser_is_admin(changedUser.getUser_is_admin());
     user.setUser_tag(changedUser.getUser_tag());
-    user.setInsert_date(changedUser.getInsert_date());
-    user.setUpdate_date(changedUser.getUpdate_date());
+    user.setUser_update_date(changedUser.getUser_update_date());
 
     User updateUser = userRepository.save(user);
 

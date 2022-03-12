@@ -10,3 +10,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
      @Query("select to_user_id from Follow where from_user_id=?1")
      String[] findByFromUserId(@Param("from_user_id") String from_user_id);
  }
+
+
+

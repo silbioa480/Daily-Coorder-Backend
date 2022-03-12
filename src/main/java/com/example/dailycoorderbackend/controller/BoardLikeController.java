@@ -14,53 +14,53 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class BoardLikeController {
 
-    private final BoardLikeRepository boardLikeRepository;
+  private final BoardLikeRepository boardLikeRepository;
 
-    public BoardLikeController(BoardLikeRepository boardLikeRepository) {
-        this.boardLikeRepository = boardLikeRepository;
-    }
+  public BoardLikeController(BoardLikeRepository boardLikeRepository) {
+    this.boardLikeRepository = boardLikeRepository;
+  }
 
-    @GetMapping("/boardLike")
-    public List<BoardLike> getAllBoard_like() {
-        return boardLikeRepository.findAll();
-    }
+  @GetMapping("/board_like")
+  public List<BoardLike> getAllBoard_like() {
+    return boardLikeRepository.findAll();
+  }
 
-    @PostMapping("/boardLike")
-    public BoardLike createBoardLike(@RequestBody BoardLike boardLike) {
-        return boardLikeRepository.save(boardLike);
-    }
+  @PostMapping("/board_like")
+  public BoardLike createBoardLike(@RequestBody BoardLike boardLike) {
+    return boardLikeRepository.save(boardLike);
+  }
 
-    @GetMapping("/boardLike/{board_like_id}")
-    public ResponseEntity<BoardLike> getBoardLikeById(@PathVariable Long board_like_id) {
-        BoardLike boardLike = boardLikeRepository.findById(board_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
+  @GetMapping("/board_like/{board_like_id}")
+  public ResponseEntity<BoardLike> getBoardLikeById(@PathVariable Long board_like_id) {
+    BoardLike boardLike = boardLikeRepository.findById(board_like_id).
+      orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
 
-        return ResponseEntity.ok(boardLike);
-    }
+    return ResponseEntity.ok(boardLike);
+  }
 
-    @PutMapping("/boardLike/{board_like_id}")
-    public ResponseEntity<BoardLike> updateBoardLike(@PathVariable Long board_like_id, @RequestBody BoardLike changeBoardLike) {
-        BoardLike boardLike = boardLikeRepository.findById(board_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
+  @PutMapping("/board_like/{board_like_id}")
+  public ResponseEntity<BoardLike> updateBoardLike(@PathVariable Long board_like_id, @RequestBody BoardLike changeBoardLike) {
+    BoardLike boardLike = boardLikeRepository.findById(board_like_id).
+      orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
 
-        boardLike.setBoard_id(changeBoardLike.getBoard_id());
-        boardLike.setBoard_like_user_id(changeBoardLike.getBoard_like_user_id());
+    boardLike.setBoard_id(changeBoardLike.getBoard_id());
+    boardLike.setBoard_like_user_id(changeBoardLike.getBoard_like_user_id());
 
-        BoardLike updateBoardLike = boardLikeRepository.save(boardLike);
+    BoardLike updateBoardLike = boardLikeRepository.save(boardLike);
 
-        return ResponseEntity.ok(updateBoardLike);
-    }
+    return ResponseEntity.ok(updateBoardLike);
+  }
 
-    @DeleteMapping("/boardLike/{board_like_id}")
-    public ResponseEntity<Map<String, Boolean>> deleteBoard(@PathVariable Long board_like_id) {
-        BoardLike boardLike = boardLikeRepository.findById(board_like_id).
-                orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
+  @DeleteMapping("/board_like/{board_like_id}")
+  public ResponseEntity<Map<String, Boolean>> deleteBoard(@PathVariable Long board_like_id) {
+    BoardLike boardLike = boardLikeRepository.findById(board_like_id).
+      orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
 
-        boardLikeRepository.delete(boardLike);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("delete", Boolean.TRUE);
+    boardLikeRepository.delete(boardLike);
+    Map<String, Boolean> response = new HashMap<>();
+    response.put("delete", Boolean.TRUE);
 
-        return ResponseEntity.ok(response);
-    }
+    return ResponseEntity.ok(response);
+  }
 }
 

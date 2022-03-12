@@ -1,14 +1,13 @@
 package com.example.dailycoorderbackend.model;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "board")
 public class Board {
 
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-
   private long board_id;
 
   @Column(name = "board_poster")
@@ -26,9 +25,8 @@ public class Board {
   @Column(name = "board_url")
   private String board_url;
 
-  @Column(name = "board_like_num")
-  private String board_like_num;
-
+  @Column(name = "board_like_number")
+  private String board_like_number;
 
   @Column(name = "board_view")
   private int board_view;
@@ -39,7 +37,8 @@ public class Board {
   @Column(name = "board_update_date")
   private int board_update_date;
 
-  public Board(){}
+  public Board() {
+  }
 
   public Board(long board_id, String board_poster, int board_image, String board_title, String board_content, String board_url, String board_like_num, int board_view, int board_post_date, int board_update_date) {
     this.board_id = board_id;
@@ -48,7 +47,7 @@ public class Board {
     this.board_title = board_title;
     this.board_content = board_content;
     this.board_url = board_url;
-    this.board_like_num = board_like_num;
+    this.board_like_number = board_like_num;
     this.board_view = board_view;
     this.board_post_date = board_post_date;
     this.board_update_date = board_update_date;
@@ -102,12 +101,12 @@ public class Board {
     this.board_url = board_url;
   }
 
-  public String getBoard_like_num() {
-    return board_like_num;
+  public String getBoard_like_number() {
+    return board_like_number;
   }
 
-  public void setBoard_like_num(String board_like_num) {
-    this.board_like_num = board_like_num;
+  public void setBoard_like_number(String board_like_num) {
+    this.board_like_number = board_like_num;
   }
 
   public int getBoard_view() {
