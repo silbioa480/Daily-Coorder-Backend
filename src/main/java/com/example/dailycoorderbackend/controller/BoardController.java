@@ -38,6 +38,11 @@ public class BoardController {
     return ResponseEntity.ok(board);
   }
 
+  @GetMapping("/board/board_poster/{board_poster}")
+  public List<Board> getBoardByUserId(@PathVariable String board_poster) {
+    return boardRepository.getBoardByUserId(board_poster);
+  }
+
   @PutMapping("/board/{board_id}")
   public ResponseEntity<Board> updateBoard(@PathVariable Long board_id, @RequestBody Board changedBoard) {
     Board board = boardRepository.findById(board_id).
