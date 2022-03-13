@@ -42,7 +42,7 @@ public class MemberIdController {
     MemberId memberId = member_idRepository.findById(member_id).
       orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + member_id));
 
-    memberId.setMember_id(changeMemberId.getMember_id());
+    memberId.setIs_business(changeMemberId.getIs_business());
 
     MemberId updateMemberId = member_idRepository.save(memberId);
 
