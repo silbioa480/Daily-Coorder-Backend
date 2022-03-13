@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   datasource:
     url: "jdbc:mysql://121.42.13.136:6603/daily-coorder"
     username: test
