@@ -39,8 +39,8 @@ public class TagController {
   }
 
   @GetMapping("/tag/tag_name/{tag_name}")
-  public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
-    Long[] boardId = tagRepository.findByTagName(tag_name);
+  public ResponseEntity<List<Long>> getBoardIdByTagName(@PathVariable String tag_name) {
+    List<Long[]> boardId = tagRepository.findByTagName(tag_name);
 
     return ResponseEntity.ok(boardId);
   }

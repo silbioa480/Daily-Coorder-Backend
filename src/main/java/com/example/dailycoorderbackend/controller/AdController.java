@@ -38,6 +38,14 @@ public class AdController {
     return ResponseEntity.ok(ad);
   }
 
+  @GetMapping("/ad/business_id/{business_id}")
+  public ResponseEntity<Ad> getAdByBusinessId(@PathVariable String business_id) {
+    Ad ad = adRepository.getAdByBusinessId(business_id);
+    if (ad == null) throw new ResourceNotFoundException("not exist");
+
+    return ResponseEntity.ok(ad);
+  }
+
   @PutMapping("/ad/{ad_id}")
   public ResponseEntity<Ad> updateAd(@PathVariable long ad_id, @RequestBody Ad changedAd) {
     Ad ad = adRepository.findById(ad_id).
