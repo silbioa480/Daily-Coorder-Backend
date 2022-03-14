@@ -9,3 +9,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
   @Query("select board_id from Tag where tag_name=?1")
   Long[] findByTagName(@Param("tag_name") String tag_name);
 }
+
+
+
