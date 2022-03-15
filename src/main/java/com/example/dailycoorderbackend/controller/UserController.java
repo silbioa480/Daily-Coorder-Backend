@@ -32,9 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-
     public List<User> getAllUsers() {
-        System.out.println("asaaaaaaaaaaaaaa");
         return userRepository.findAll();
     }
 
@@ -43,9 +41,8 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @GetMapping("/users/{user_id}")
+    @GetMapping("/users/one/{user_id}")
     public ResponseEntity<User> getUserById(@PathVariable String user_id) {
-        System.out.println(user_id);
         User user = userRepository.findById(user_id).
                 orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + user_id));
 
@@ -55,7 +52,6 @@ public class UserController {
     @GetMapping(value = "/user_profile/{filename}")
     public void fileview(@PathVariable String filename,
                          HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(filename);
         String path = servletContext.getRealPath("/image/");
         //String path = "/upload/";
         File file = new File(path + filename);

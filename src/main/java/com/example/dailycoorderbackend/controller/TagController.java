@@ -14,60 +14,68 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class TagController {
 
-  private final TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
-  public TagController(TagRepository tagRepository) {
-    this.tagRepository = tagRepository;
-  }
+    public TagController(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
-  @GetMapping("/tag")
-  public List<Tag> getAllTag() {
-    return tagRepository.findAll();
-  }
+    @GetMapping("/tag")
+    public List<Tag> getAllTag() {
+        return tagRepository.findAll();
+    }
 
-  @PostMapping("/tag")
-  public Tag createTag(@RequestBody Tag tag) {
-    return tagRepository.save(tag);
-  }
+    @PostMapping("/tag")
+    public Tag createTag(@RequestBody Tag tag) {
+        return tagRepository.save(tag);
+    }
 
-  @GetMapping("/tag/{tag_id}")
-  public ResponseEntity<Tag> getTagById(@PathVariable Long tag_id) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+    @GetMapping("/tag/{tag_id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable Long tag_id) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
-    return ResponseEntity.ok(tag);
-  }
+        return ResponseEntity.ok(tag);
+    }
 
-  @GetMapping("/tag/tag_name/{tag_name}")
-  public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
-    Long[] boardId = tagRepository.findByTagName(tag_name);
+    @GetMapping("/tag/tag_name/{tag_name}")
+    public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
+        Long[] boardId = tagRepository.findByTagName(tag_name);
 
-    return ResponseEntity.ok(boardId);
-  }
+        return ResponseEntity.ok(boardId);
+    }
 
-  @PutMapping("/tag/{tag_id}")
-  public ResponseEntity<Tag> updateTag(@PathVariable Long tag_id, @RequestBody Tag changedTag) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+    @GetMapping("/tag/tag_names/{board_id}")
+    public ResponseEntity<String[]> getTageNamesByBoardId(@PathVariable Long board_id) {
+        System.out.println("board_id:" + board_id);
+        String[] tagNames = tagRepository.findTagByBoardId(board_id);
 
-    tag.setBoard_id(changedTag.getBoard_id());
-    tag.setTag_name(changedTag.getTag_name());
+        return ResponseEntity.ok(tagNames);
+    }
 
-    Tag updateTag = tagRepository.save(tag);
+    @PutMapping("/tag/{tag_id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Long tag_id, @RequestBody Tag changedTag) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
-    return ResponseEntity.ok(updateTag);
-  }
+        tag.setBoard_id(changedTag.getBoard_id());
+        tag.setTag_name(changedTag.getTag_name());
 
-  @DeleteMapping("/tag/{tag_id}")
-  public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long tag_id) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+        Tag updateTag = tagRepository.save(tag);
 
-    tagRepository.delete(tag);
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("delete", Boolean.TRUE);
+        return ResponseEntity.ok(updateTag);
+    }
 
-    return ResponseEntity.ok(response);
-  }
+    @DeleteMapping("/tag/{tag_id}")
+    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long tag_id) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+
+        tagRepository.delete(tag);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
 }
 
