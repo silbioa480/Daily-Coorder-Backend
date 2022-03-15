@@ -45,7 +45,7 @@ public class FollowController {
     return ResponseEntity.ok(followerId);
   }
 
-  @GetMapping("/follow/follower/{from_user_id}&{to_user_id}")
+  @GetMapping("/follow/follower/{from_user_id}/{to_user_id}")
   public ResponseEntity<Follow> checkFollow(@PathVariable String from_user_id,@PathVariable String to_user_id) {
     Follow follow = followRepository.checkFollow(from_user_id, to_user_id);
 

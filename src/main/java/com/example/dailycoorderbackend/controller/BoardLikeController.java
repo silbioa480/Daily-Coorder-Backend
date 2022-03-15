@@ -1,6 +1,7 @@
 package com.example.dailycoorderbackend.controller;
 
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
+import com.example.dailycoorderbackend.model.Board;
 import com.example.dailycoorderbackend.model.BoardLike;
 import com.example.dailycoorderbackend.repository.BoardLikeRepository;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,13 @@ public class BoardLikeController {
   public ResponseEntity<BoardLike> getBoardLikeById(@PathVariable Long board_like_id) {
     BoardLike boardLike = boardLikeRepository.findById(board_like_id).
       orElseThrow(() -> new ResourceNotFoundException("Board not exist with id: " + board_like_id));
+
+    return ResponseEntity.ok(boardLike);
+  }
+
+  @GetMapping("/board_like/{board_id}/{board_like_user_id}")
+  public ResponseEntity<BoardLike> checkLike(@PathVariable long board_id, @PathVariable String board_like_user_id) {
+    BoardLike boardLike = boardLikeRepository.checkLike(board_id, board_like_user_id);
 
     return ResponseEntity.ok(boardLike);
   }
