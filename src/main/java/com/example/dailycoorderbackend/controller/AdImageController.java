@@ -3,62 +3,78 @@ package com.example.dailycoorderbackend.controller;
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
 import com.example.dailycoorderbackend.model.AdImage;
 import com.example.dailycoorderbackend.repository.AdImageRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/api/")
 public class AdImageController {
-  private final AdImageRepository ad_imageImageRepository;
+  private final AdImageRepository adImageRepository;
 
-  public AdImageController(AdImageRepository ad_imageRepository) {
-    this.ad_imageImageRepository = ad_imageRepository;
-  }
-
-  @GetMapping("/ad_image")
-  public List<AdImage> getAllAdImages() {
-    return ad_imageImageRepository.findAll();
+  public AdImageController(AdImageRepository adImageRepository) {
+    this.adImageRepository = adImageRepository;
   }
 
   @PostMapping("/ad_image")
-  public AdImage createAdImage(@RequestBody AdImage ad_image) {
-    return ad_imageImageRepository.save(ad_image);
+  public Long uploadImage(@RequestParam("ImageFile") MultipartFile file) throws IOException {
+    AdImage image = new AdImage(compressBytes(file.getBytes()), file.getContentType(), file.getOriginalFilename());
+
+    return adImageRepository.addImage(image);
   }
 
   @GetMapping("/ad_image/{ad_image_id}")
-  public ResponseEntity<AdImage> getAdImageById(@PathVariable long ad_image_id) {
-    AdImage ad_image = ad_imageImageRepository.findById(ad_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("AdImage not exist with id: " + ad_image_id));
+  public byte[] getImage(@PathVariable Long ad_image_id, HttpServletResponse response) {
+    AdImage image = adImageRepository.findById(ad_image_id).orElseThrow(() -> new ResourceNotFoundException("not found"));
+    image.setAd_image_file(decompressBytes(image.getAd_image_file()));
+    response.setContentType(image.getAd_image_type());
 
-    return ResponseEntity.ok(ad_image);
+    return image.getAd_image_file();
   }
 
-  @PutMapping("/ad_image/{ad_image_id}")
-  public ResponseEntity<AdImage> updateAdImage(@PathVariable long ad_image_id, @RequestBody AdImage changedAdImage) {
-    AdImage ad_image = ad_imageImageRepository.findById(ad_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("AdImage not exist with id: " + ad_image_id));
+  public static byte[] compressBytes(byte[] data) {
+    Deflater deflater = new Deflater();
+    deflater.setInput(data);
+    deflater.finish();
 
-    ad_image.setAd_image_file(changedAdImage.getAd_image_file());
-    ad_image.setAd_image_name(changedAdImage.getAd_image_name());
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[1024];
 
-    AdImage updateAdImage = ad_imageImageRepository.save(ad_image);
+    while (!deflater.finished()) {
+      int count = deflater.deflate(buffer);
+      outputStream.write(buffer, 0, count);
 
-    return ResponseEntity.ok(updateAdImage);
+      try {
+        outputStream.close();
+      } catch (IOException e) {
+      }
+    }
+
+    return outputStream.toByteArray();
   }
 
-  @DeleteMapping("/ad_image/{ad_image_id}")
-  public ResponseEntity<Map<String, Boolean>> deleteAdImage(@PathVariable long ad_image_id) {
-    AdImage ad_image = ad_imageImageRepository.findById(ad_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("AdImage not exist with id: " + ad_image_id));
+  public static byte[] decompressBytes(byte[] data) {
+    Inflater inflater = new Inflater();
+    inflater.setInput(data);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[1024];
 
-    ad_imageImageRepository.delete(ad_image);
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("delete", Boolean.TRUE);
+    try {
+      while (!inflater.finished()) {
+        int count = inflater.inflate(buffer);
+        outputStream.write(buffer, 0, count);
+      }
 
-    return ResponseEntity.ok(response);
+      outputStream.close();
+    } catch (IOException | DataFormatException ignored) {
+    }
+
+    return outputStream.toByteArray();
   }
 }

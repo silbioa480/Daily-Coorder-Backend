@@ -12,8 +12,7 @@ public class Tag {
   @Column(name = "board_id")
   private long board_id;
 
-  @Column(name="tag_name")
-  private String tag_name;
+  @Column(name="tag_name")  private String tag_name;
 
   public Tag(){}
 

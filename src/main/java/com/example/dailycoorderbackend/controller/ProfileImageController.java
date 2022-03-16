@@ -3,12 +3,15 @@ package com.example.dailycoorderbackend.controller;
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
 import com.example.dailycoorderbackend.model.ProfileImage;
 import com.example.dailycoorderbackend.repository.ProfileImageRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/api/")
@@ -16,50 +19,63 @@ public class ProfileImageController {
 
   private final ProfileImageRepository profileImageRepository;
 
-  public ProfileImageController(ProfileImageRepository profile_imageRepository) {
-    this.profileImageRepository = profile_imageRepository;
-  }
-
-  @GetMapping("/profile_image")
-  public List<ProfileImage> getAllProfileImages() {
-    return profileImageRepository.findAll();
+  public ProfileImageController(ProfileImageRepository profileImageRepository) {
+    this.profileImageRepository = profileImageRepository;
   }
 
   @PostMapping("/profile_image")
-  public ProfileImage createProfileImage(@RequestBody ProfileImage profile_image) {
-    return profileImageRepository.save(profile_image);
+  public Long uploadImage(@RequestParam("ImageFile") MultipartFile file) throws IOException {
+    ProfileImage image = new ProfileImage(compressBytes(file.getBytes()), file.getContentType(), file.getOriginalFilename());
+
+    return profileImageRepository.addImage(image);
   }
 
   @GetMapping("/profile_image/{profile_image_id}")
-  public ResponseEntity<ProfileImage> getProfileImageById(@PathVariable long profile_image_id) {
-    ProfileImage profile_image = profileImageRepository.findById(profile_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("ProfileImage not exist with id: " + profile_image_id));
+  public byte[] getImage(@PathVariable Long profile_image_id, HttpServletResponse response) {
+    ProfileImage image = profileImageRepository.findById(profile_image_id).orElseThrow(() -> new ResourceNotFoundException("not found"));
+    image.setProfile_image_file(decompressBytes(image.getProfile_image_file()));
+    response.setContentType(image.getProfile_image_type());
 
-    return ResponseEntity.ok(profile_image);
+    return image.getProfile_image_file();
   }
 
-  @PutMapping("/profile_image/{profile_image_id}")
-  public ResponseEntity<ProfileImage> updateProfileImage(@PathVariable long profile_image_id, @RequestBody ProfileImage changedProfileImage) {
-    ProfileImage profile_image = profileImageRepository.findById(profile_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("ProfileImage not exist with id: " + profile_image_id));
+  public static byte[] compressBytes(byte[] data) {
+    Deflater deflater = new Deflater();
+    deflater.setInput(data);
+    deflater.finish();
 
-    profile_image.setProfile_image_file(changedProfileImage.getProfile_image_file());
-    profile_image.setProfile_image_name(changedProfileImage.getProfile_image_name());
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[1024];
 
-    ProfileImage updateProfileImage = profileImageRepository.save(profile_image);
+    while (!deflater.finished()) {
+      int count = deflater.deflate(buffer);
+      outputStream.write(buffer, 0, count);
 
-    return ResponseEntity.ok(updateProfileImage);
+      try {
+        outputStream.close();
+      } catch (IOException e) {
+      }
+    }
+
+    return outputStream.toByteArray();
   }
 
-  @DeleteMapping("/profile_image/{profile_image_id}")
-  public ResponseEntity<Map<String, Boolean>> deleteProfileImage(@PathVariable long profile_image_id) {
-    ProfileImage profile_image = profileImageRepository.findById(profile_image_id).
-      orElseThrow(() -> new ResourceNotFoundException("ProfileImage not exist with id: " + profile_image_id));
+  public static byte[] decompressBytes(byte[] data) {
+    Inflater inflater = new Inflater();
+    inflater.setInput(data);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[1024];
 
-    profileImageRepository.delete(profile_image);
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("delete", Boolean.TRUE);
+    try {
+      while (!inflater.finished()) {
+        int count = inflater.inflate(buffer);
+        outputStream.write(buffer, 0, count);
+      }
 
-    return ResponseEntity.ok(response);
+      outputStream.close();
+    } catch (IOException | DataFormatException ignored) {
+    }
+
+    return outputStream.toByteArray();
   }
 }

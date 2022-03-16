@@ -1,7 +1,6 @@
 package com.example.dailycoorderbackend.model;
 
 import javax.persistence.*;
-import java.io.File;
 
 @Entity
 @Table(name = "profile_image")
@@ -11,8 +10,11 @@ public class ProfileImage {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long profile_image_id;
 
-  @Column(name = "profile_image_file")
-  private File profile_image_file;
+  @Column(name = "profile_image_file", length = 1000)
+  private byte[] profile_image_file;
+
+  @Column(name = "profile_image_type")
+  private String profile_image_type;
 
   @Column(name = "profile_image_name")
   private String profile_image_name;
@@ -20,9 +22,9 @@ public class ProfileImage {
   public ProfileImage() {
   }
 
-  public ProfileImage(long profile_image_id, File profile_image_file, String profile_image_name) {
-    this.profile_image_id = profile_image_id;
+  public ProfileImage(byte[] profile_image_file, String profile_image_type, String profile_image_name) {
     this.profile_image_file = profile_image_file;
+    this.profile_image_type = profile_image_type;
     this.profile_image_name = profile_image_name;
   }
 
@@ -34,11 +36,11 @@ public class ProfileImage {
     this.profile_image_id = profile_image_id;
   }
 
-  public File getProfile_image_file() {
+  public byte[] getProfile_image_file() {
     return profile_image_file;
   }
 
-  public void setProfile_image_file(File profile_image_file) {
+  public void setProfile_image_file(byte[] profile_image_file) {
     this.profile_image_file = profile_image_file;
   }
 
@@ -48,5 +50,13 @@ public class ProfileImage {
 
   public void setProfile_image_name(String profile_image_name) {
     this.profile_image_name = profile_image_name;
+  }
+
+  public String getProfile_image_type() {
+    return profile_image_type;
+  }
+
+  public void setProfile_image_type(String profile_image_type) {
+    this.profile_image_type = profile_image_type;
   }
 }
