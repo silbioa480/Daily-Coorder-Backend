@@ -22,6 +22,7 @@ public class TagLike {
         this.tag_like_id = tag_like_id;
         this.member_id = member_id;
         this.tag_name = tag_name;
+
     }
 
     public long getTag_like_id() {

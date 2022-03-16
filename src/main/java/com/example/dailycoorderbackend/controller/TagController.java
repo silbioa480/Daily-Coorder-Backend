@@ -3,7 +3,7 @@ package com.example.dailycoorderbackend.controller;
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
 import com.example.dailycoorderbackend.model.Tag;
 import com.example.dailycoorderbackend.repository.TagRepository;
-import org.springframework.data.repository.query.Param;
+import com.example.dailycoorderbackend.repository.TagLikeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +17,11 @@ public class TagController {
 
     private final TagRepository tagRepository;
 
-    public TagController(TagRepository tagRepository) {
+    private final TagLikeRepository tagLikeRepository;
+
+    public TagController(TagRepository tagRepository, TagLikeRepository tagLikeRepository) {
         this.tagRepository = tagRepository;
+        this.tagLikeRepository = tagLikeRepository;
     }
 
     @GetMapping("/tag")
@@ -40,8 +43,9 @@ public class TagController {
     }
 
     @GetMapping("/tag/tag_name/{tag_name}")
-    public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
-        Long[] boardId = tagRepository.findByTagName(tag_name);
+    public ResponseEntity<List<String>> getBoardIdByTagName(@PathVariable String tag_name) {
+        System.out.println(tag_name);
+        List<String> boardId = tagLikeRepository.getTagNameByMemberId(tag_name);
 
         return ResponseEntity.ok(boardId);
     }

@@ -36,10 +36,12 @@ public class UserController {
     return userRepository.findAll();
   }
 
+
   @PostMapping("/users")
   public User createUser(@RequestBody User user) {
     return userRepository.save(user);
   }
+
 
   @GetMapping("/users/{user_id}")
   public ResponseEntity<User> getUserById(@PathVariable String user_id) {
