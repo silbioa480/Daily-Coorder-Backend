@@ -3,7 +3,7 @@ package com.example.dailycoorderbackend.controller;
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
 import com.example.dailycoorderbackend.model.Tag;
 import com.example.dailycoorderbackend.repository.TagRepository;
-import org.springframework.data.repository.query.Param;
+import com.example.dailycoorderbackend.repository.TagLikeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,60 +15,72 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class TagController {
 
-  private final TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
-  public TagController(TagRepository tagRepository) {
-    this.tagRepository = tagRepository;
-  }
+    private final TagLikeRepository tagLikeRepository;
 
-  @GetMapping("/tag")
-  public List<Tag> getAllTag() {
-    return tagRepository.findAll();
-  }
+    public TagController(TagRepository tagRepository, TagLikeRepository tagLikeRepository) {
+        this.tagRepository = tagRepository;
+        this.tagLikeRepository = tagLikeRepository;
+    }
 
-  @PostMapping("/tag")
-  public Tag createTag(@RequestBody Tag tag) {
-    return tagRepository.save(tag);
-  }
+    @GetMapping("/tag")
+    public List<Tag> getAllTag() {
+        return tagRepository.findAll();
+    }
 
-  @GetMapping("/tag/{tag_id}")
-  public ResponseEntity<Tag> getTagById(@PathVariable Long tag_id) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+    @PostMapping("/tag")
+    public Tag createTag(@RequestBody Tag tag) {
+        return tagRepository.save(tag);
+    }
 
-    return ResponseEntity.ok(tag);
-  }
+    @GetMapping("/tag/{tag_id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable Long tag_id) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
-  @GetMapping("/tag/tag_name/{tag_name}")
-  public ResponseEntity<Long[]> getBoardIdByTagName(@PathVariable String tag_name) {
-    Long[] boardId = tagRepository.findByTagName(tag_name);
+        return ResponseEntity.ok(tag);
+    }
 
-    return ResponseEntity.ok(boardId);
-  }
+    @GetMapping("/tag/tag_name/{tag_name}")
+    public ResponseEntity<List<String>> getBoardIdByTagName(@PathVariable String tag_name) {
+        System.out.println(tag_name);
+        List<String> boardId = tagLikeRepository.getTagNameByMemberId(tag_name);
 
-  @PutMapping("/tag/{tag_id}")
-  public ResponseEntity<Tag> updateTag(@PathVariable Long tag_id, @RequestBody Tag changedTag) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+        return ResponseEntity.ok(boardId);
+    }
 
-    tag.setBoard_id(changedTag.getBoard_id());
-    tag.setTag_name(changedTag.getTag_name());
+    @GetMapping("/tag/tag_names/{board_id}")
+    public ResponseEntity<String[]> getTageNamesByBoardId(@PathVariable Long board_id) {
+        System.out.println("board_id:" + board_id);
+        String[] tagNames = tagRepository.findTagByBoardId(board_id);
 
-    Tag updateTag = tagRepository.save(tag);
+        return ResponseEntity.ok(tagNames);
+    }
 
-    return ResponseEntity.ok(updateTag);
-  }
+    @PutMapping("/tag/{tag_id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Long tag_id, @RequestBody Tag changedTag) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
 
-  @DeleteMapping("/tag/{tag_id}")
-  public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long tag_id) {
-    Tag tag = tagRepository.findById(tag_id).
-      orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+        tag.setBoard_id(changedTag.getBoard_id());
+        tag.setTag_name(changedTag.getTag_name());
 
-    tagRepository.delete(tag);
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("delete", Boolean.TRUE);
+        Tag updateTag = tagRepository.save(tag);
 
-    return ResponseEntity.ok(response);
-  }
+        return ResponseEntity.ok(updateTag);
+    }
+
+    @DeleteMapping("/tag/{tag_id}")
+    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long tag_id) {
+        Tag tag = tagRepository.findById(tag_id).
+                orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + tag_id));
+
+        tagRepository.delete(tag);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
 }
 

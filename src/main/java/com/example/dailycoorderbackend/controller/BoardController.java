@@ -3,6 +3,7 @@ package com.example.dailycoorderbackend.controller;
 import com.example.dailycoorderbackend.exception.ResourceNotFoundException;
 import com.example.dailycoorderbackend.model.Board;
 import com.example.dailycoorderbackend.repository.BoardRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,6 @@ public class BoardController {
     return boardRepository.findAll();
   }
 
-  @PostMapping("/board")
-  public Board createBoard(@RequestBody Board board) {
-    return boardRepository.save(board);
-  }
 
   @GetMapping("/board/{board_id}")
   public ResponseEntity<Board> getBoardById(@PathVariable Long board_id) {
@@ -37,6 +34,23 @@ public class BoardController {
 
     return ResponseEntity.ok(board);
   }
+
+  @GetMapping("/board/page/{startrow}")
+  public List<Board> getBoardLikePage(@PathVariable int startrow) {
+    System.out.println(startrow);
+     List <Board> boardList = boardRepository.findAll();
+     List <Board> subList = boardList.subList(startrow, startrow+10);
+    System.out.println("subList size:"+subList.size());
+      return subList;
+  }
+//    return boardRepository.findTop10OrderByBoardLikeNumberDesc();
+
+
+//  @GetMapping("/board/page/{startrow}")
+//  public List<Board> getBoardLikePage(@PathVariable int startrow) {
+//
+//    return boardRepository.findAllOrderByGreaterThan( PageRequest.of(startrow, 10));
+//  }
 
   @GetMapping("/board/board_poster/{board_poster}")
   public List<Board> getBoardByUserId(@PathVariable String board_poster) {
