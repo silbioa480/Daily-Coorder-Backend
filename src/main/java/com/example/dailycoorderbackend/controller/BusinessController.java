@@ -38,6 +38,13 @@ public class BusinessController {
     return ResponseEntity.ok(business);
   }
 
+  @GetMapping("/business/{business_name}")
+  public ResponseEntity<Business> findTop10OrderByBusinessNameDesc(@PathVariable String business_name) {
+    Business business = businessRepository.findTop10OrderByBusinessNameDesc(business_name);
+
+    return ResponseEntity.ok(business);
+  }
+
   @PutMapping("/business/{business_id}")
   public ResponseEntity<Business> updateBusiness(@PathVariable String business_id, @RequestBody Business changedBusiness) {
     Business business = businessRepository.findById(business_id).
