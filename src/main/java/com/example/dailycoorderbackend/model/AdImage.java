@@ -1,7 +1,6 @@
 package com.example.dailycoorderbackend.model;
 
 import javax.persistence.*;
-import java.io.File;
 
 @Entity
 @Table(name = "ad_image")
@@ -12,7 +11,10 @@ public class AdImage {
   private long ad_image_id;
 
   @Column(name = "ad_image_file")
-  private File ad_image_file;
+  private byte[] ad_image_file;
+
+  @Column(name = "ad_image_type")
+  private String ad_image_type;
 
   @Column(name = "ad_image_name")
   private String ad_image_name;
@@ -20,9 +22,9 @@ public class AdImage {
   public AdImage() {
   }
 
-  public AdImage(long ad_image_id, File ad_image_file, String ad_image_name) {
-    this.ad_image_id = ad_image_id;
+  public AdImage(byte[] ad_image_file, String ad_image_type, String ad_image_name) {
     this.ad_image_file = ad_image_file;
+    this.ad_image_type = ad_image_type;
     this.ad_image_name = ad_image_name;
   }
 
@@ -34,12 +36,20 @@ public class AdImage {
     this.ad_image_id = ad_image_id;
   }
 
-  public File getAd_image_file() {
+  public byte[] getAd_image_file() {
     return ad_image_file;
   }
 
-  public void setAd_image_file(File ad_image_file) {
+  public void setAd_image_file(byte[] ad_image_file) {
     this.ad_image_file = ad_image_file;
+  }
+
+  public String getAd_image_type() {
+    return ad_image_type;
+  }
+
+  public void setAd_image_type(String ad_image_type) {
+    this.ad_image_type = ad_image_type;
   }
 
   public String getAd_image_name() {

@@ -12,6 +12,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
   @Query("select b from Board b where b.board_poster=?1")
   List<Board> getBoardByUserId(@Param("board_poster") String board_poster);
 
-//  List<Board> findAllOrderByGreaterThan( Pageable pageable);
+
 
 }

@@ -35,13 +35,21 @@ public class BoardController {
     return ResponseEntity.ok(board);
   }
 
+  @GetMapping("/board/cnt")
+  public Long getBoardCount() {
+    return boardRepository.count();
+  }
+
   @GetMapping("/board/page/{startrow}")
   public List<Board> getBoardLikePage(@PathVariable int startrow) {
-    System.out.println(startrow);
+     System.out.println(startrow);
      List <Board> boardList = boardRepository.findAll();
-     List <Board> subList = boardList.subList(startrow, startrow+10);
-    System.out.println("subList size:"+subList.size());
-      return subList;
+     int cnt =boardList.size()-startrow;
+     if(cnt<=0) return boardList;
+     int endrow = startrow+(cnt<10? cnt: 10);
+     List <Board> subList = boardList.subList(startrow, endrow);
+     System.out.println("subList size:"+subList.size());
+     return subList;
   }
 //    return boardRepository.findTop10OrderByBoardLikeNumberDesc();
 
