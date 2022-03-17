@@ -30,7 +30,7 @@ public class BoardImageController {
   }
 
   @PostMapping("/board_image")
-  public Long uploadImage(@RequestParam("ImageFile") MultipartFile file) throws IOException {
+  public Long uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
     BoardImage image = new BoardImage(compressBytes(file.getBytes()), file.getContentType(), file.getOriginalFilename());
 
     return boardImageRepository.addImage(image);

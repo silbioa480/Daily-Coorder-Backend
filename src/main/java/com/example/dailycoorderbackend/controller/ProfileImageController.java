@@ -24,7 +24,7 @@ public class ProfileImageController {
   }
 
   @PostMapping("/profile_image")
-  public Long uploadImage(@RequestParam("ImageFile") MultipartFile file) throws IOException {
+  public Long uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
     ProfileImage image = new ProfileImage(compressBytes(file.getBytes()), file.getContentType(), file.getOriginalFilename());
 
     return profileImageRepository.addImage(image);

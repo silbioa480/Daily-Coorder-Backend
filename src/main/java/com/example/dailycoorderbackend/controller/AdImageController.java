@@ -23,7 +23,7 @@ public class AdImageController {
   }
 
   @PostMapping("/ad_image")
-  public Long uploadImage(@RequestParam("ImageFile") MultipartFile file) throws IOException {
+  public Long uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
     AdImage image = new AdImage(compressBytes(file.getBytes()), file.getContentType(), file.getOriginalFilename());
 
     return adImageRepository.addImage(image);
